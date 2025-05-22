@@ -3,9 +3,7 @@ html, body {
   margin: 0;
 }
 
-body {
-  background: linear-gradient(black 50%, white 50%);
-}
+
 
 .ant-picker-now-btn {
   color: white !important;

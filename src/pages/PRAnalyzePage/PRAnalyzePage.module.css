@@ -1,0 +1,65 @@
+/* Reset global spacing and box model */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  background-color: white;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Full-page container with vertical flow */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ✅ Hero section: fully black top section */
+.heroSection {
+  background-color: #000;
+  color: white;
+  height: 420px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+/* Headings and text styles */
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  max-width: 600px;
+  line-height: 1.5;
+  color: #ddd;
+  text-align: center;
+}
+
+/* ✅ Ensure form does not push outside black area */
+.heroSection form {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 1rem;
+}
+
+/* Results section: after hero, with white background */
+.resultSection {
+  flex-grow: 1;
+  width: 100%;
+  background-color: white;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
