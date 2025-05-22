@@ -35,8 +35,9 @@ html, body {
 /* Headings and text styles */
 .title {
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
   color: white;
+  margin-top: 1rem;
 }
 
 .subtitle {
@@ -45,6 +46,7 @@ html, body {
   line-height: 1.5;
   color: #ddd;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 /* ✅ Ensure form does not push outside black area */

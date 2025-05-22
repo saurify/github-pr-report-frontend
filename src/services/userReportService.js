@@ -23,19 +23,24 @@ export function useReportService() {
       });
       if (!res.ok) throw new Error(`API error: ${res.statusText}`);
       const json = await res.json();
-      
+
+      if (json.topReviewers === undefined) {
+        setError("No data found for this time frame")
+        return
+      }
       var data = metricCreator(json)
-      var reviewers = reviewDataCreator(json)
-      
+
       setData(data || []);
+
+      var reviewers = reviewDataCreator(json)
       setReviewers(reviewers || []);
-    } catch (err) {
+    }
+    catch (err) {
       setError(err.message || 'Unknown error');
       setData([]);
       setReviewers([]);
     } finally {
-      setHasFetched(true); 
-      // setData(res)
+      setHasFetched(true);
       setLoading(false);
     }
   }, []);
@@ -62,19 +67,19 @@ function metricDataFormatter(id, title, icon, value, desc) {
 
 function reviewDataCreator(res) {
   var reviewers = [];
-  const reviewerDataArray = res.topReviewers; 
+  const reviewerDataArray = res.topReviewers;
   console.log("diuhnus", res, reviewerDataArray)
-
   reviewerDataArray.forEach((reviewer, index) => {
     reviewers.push(
       reviewDataFormatter(
-        index, 
+        index,
         reviewer.user,
         reviewer.avatar_url,
         reviewer.reviews
       )
     );
   });
+
 
   return reviewers;
 }

@@ -10,7 +10,7 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
     if (loading) {
         return (
             <footer className={styles.footer}>
-                <div className={styles.containerBox}>
+                <div className={styles.containerBox} style={{justifyContent:'center'}}>
                     <Spin
                         indicator={<LoadingOutlined style={{ fontSize: 48, color: '#1890ff' }} spin />}
                         tip={<Text strong style={{ color: '#1890ff' }}>Analyzing pull requests...</Text>}
@@ -55,7 +55,7 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
         );
     }
 
-    if (!Array.isArray(data) || data.length === 0) {
+    if (data === undefined) {
         return (
             <footer className={styles.footer}>
                 <div className={styles.containerBox}>
