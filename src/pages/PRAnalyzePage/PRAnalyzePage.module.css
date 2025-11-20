@@ -11,28 +11,40 @@ html, body {
   font-family: 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
 }
-
-/* Full-page container with vertical flow */
 .page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
-/* ✅ Hero section: fully black top section */
+.heroSection,
+.resultSection {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  padding: 2rem 1rem;
+}
+
 .heroSection {
-  background-color: #000;
-  color: white;
   height: 420px;
-  width: 100vw;
+  background-color: transparent;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 }
 
-/* Headings and text styles */
+.heroSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: #000;
+  z-index: -1;
+}
+
 .title {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
@@ -49,19 +61,17 @@ html, body {
   margin-bottom: 2rem;
 }
 
-/* ✅ Ensure form does not push outside black area */
-.heroSection form {
-  width: 100%;
-  max-width: 600px;
-  margin-top: 1rem;
-}
-
-/* Results section: after hero, with white background */
 .resultSection {
   flex-grow: 1;
-  width: 100%;
-  background-color: white;
-  padding: 2rem 1rem;
+  background-color: transparent;
   display: flex;
   justify-content: center;
+}
+
+.resultSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  z-index: -1;
 }
