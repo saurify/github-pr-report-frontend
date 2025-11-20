@@ -55,11 +55,19 @@ const InlineForm = ({ fetchReport }) => {
           width: '100%',
           maxWidth: '1000px',
           margin: '0 auto',
-          padding: '24px',
+          // Removed padding here, handled by parent section
         }}
       >
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
-          <div style={{ flex: 2, minWidth: '250px' }}>
+        {/* Container for Inputs */}
+        <div style={{ 
+            display: 'flex', 
+            gap: '16px', 
+            flexWrap: 'wrap', 
+            justifyContent: 'center', 
+            width: '100%' 
+        }}>
+          {/* URL Input - Grows more on desktop, full width on mobile */}
+          <div style={{ flex: '999 1 300px' }}>
             <Input
               placeholder="Enter GitHub Repo URL"
               value={url}
@@ -71,7 +79,8 @@ const InlineForm = ({ fetchReport }) => {
             )}
           </div>
 
-          <div style={{ flex: 1, minWidth: '180px' }}>
+          {/* Dates - Grow evenly, stack on very small screens */}
+          <div style={{ flex: '1 1 180px' }}>
             <DatePicker
               placeholder="Start Date"
               value={startDate}
@@ -81,7 +90,7 @@ const InlineForm = ({ fetchReport }) => {
             />
           </div>
 
-          <div style={{ flex: 1, minWidth: '180px' }}>
+          <div style={{ flex: '1 1 180px' }}>
             <DatePicker
               placeholder="End Date"
               value={endDate}
@@ -89,7 +98,7 @@ const InlineForm = ({ fetchReport }) => {
               status={validationErrors.date ? 'error' : ''}
               style={{ width: '100%' }}
             />
-            {validationErrors.date && (
+             {validationErrors.date && (
               <div style={{ color: 'red', marginTop: 4, fontSize: 12 }}>{validationErrors.date}</div>
             )}
           </div>
@@ -104,10 +113,12 @@ const InlineForm = ({ fetchReport }) => {
             color: hover ? 'black' : 'white',
             border: '1px solid white',
             borderRadius: '12px',
-            padding: '0 24px',
+            padding: '0 48px', // Wider padding for better look
             height: '48px',
             fontWeight: 'bold',
             transition: 'all 0.2s ease-in-out',
+            width: 'auto', // Allow button to shrink if needed, or set min-width
+            maxWidth: '100%'
           }}
         >
           Analyze Pull Requests

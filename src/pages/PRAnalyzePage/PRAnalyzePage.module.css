@@ -11,6 +11,7 @@ html, body {
   font-family: 'Inter', system-ui, sans-serif;
   overflow-x: hidden;
 }
+
 .page {
   position: relative;
   z-index: 1;
@@ -23,18 +24,23 @@ html, body {
 .resultSection {
   position: relative;
   z-index: 2;
-  overflow: hidden;
+  /* overflow hidden removed to allow tooltips/popups to escape if needed, 
+     but kept if you need to crop the background effect explicitly */
+  overflow: hidden; 
   padding: 2rem 1rem;
 }
 
 .heroSection {
-  height: 420px;
+  /* Changed from fixed height to min-height for responsiveness */
+  min-height: 420px; 
   background-color: transparent;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* Add padding to prevent content touching edges on small screens */
+  padding: 4rem 1rem; 
 }
 
 .heroSection::before {
@@ -50,6 +56,8 @@ html, body {
   margin-bottom: 1.5rem;
   color: white;
   margin-top: 1rem;
+  text-align: center; /* Center align for mobile */
+  line-height: 1.2;
 }
 
 .subtitle {
@@ -58,7 +66,7 @@ html, body {
   line-height: 1.5;
   color: #ddd;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem; /* Increased margin to separate from form */
 }
 
 .resultSection {
@@ -66,6 +74,7 @@ html, body {
   background-color: transparent;
   display: flex;
   justify-content: center;
+  padding-bottom: 4rem;
 }
 
 .resultSection::before {
@@ -74,4 +83,21 @@ html, body {
   inset: 0;
   background-color: white;
   z-index: -1;
+}
+
+/* Mobile Media Query */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .heroSection {
+    min-height: auto;
+    padding: 3rem 1rem;
+  }
 }

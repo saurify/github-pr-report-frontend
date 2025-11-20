@@ -1,21 +1,26 @@
 .footer {
-    margin-top: 2rem;
-    padding: 2rem;
+    margin-top: 0; /* Handled by parent gap usually, but 0 is safer here */
+    padding: 0;    /* Padding handled by the container box internal or page */
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .containerBox {
     display: flex;
     background-color: #f9f9f9;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 2rem;
     border: 1px solid #e0e0e0;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-    min-width: 60vw;
+    width: 100%;
+    max-width: 1200px; /* Cap the width on huge screens */
+    gap: 2rem; /* Add gap between metrics and reviewers */
 }
 
 .metricsGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive Grid */
     gap: 1.5rem;
     flex: 1;
 }
@@ -27,7 +32,8 @@
     border-radius: 10px;
     background-color: white;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-    max-width: 20rem;
+    width: 100%; /* Ensure it fills the grid cell */
+    max-width: none; /* Remove strict max-width */
 }
 
 .icon {
@@ -39,17 +45,17 @@
     border-right: 1px solid #eee;
     padding-right: 1rem;
     height: 100%;
-    flex: 1;
+    flex: 0 0 auto; /* Don't shrink icon */
 }
 
 .textBlock {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    flex: 2.8;
+    align-items: flex-start; /* Align text left */
+    flex: 1;
+    overflow: hidden; /* Prevent text overflow */
 }
-
 
 .value {
     font-size: 1.25rem;
@@ -60,18 +66,15 @@
 .label {
     font-size: 0.95rem;
     color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
 .reviewerSection {
     width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-}
-
-
-.reviewerSection {
-    max-width: 30%;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     border-left: 1px solid #ddd;
@@ -82,7 +85,7 @@
 .reviewerHeader {
     display: flex;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .reviewerHeader::before,
@@ -105,22 +108,65 @@
     font-weight: 600;
     color: #333;
     white-space: nowrap;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .reviewerList {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.reviewerItem {
-    display: flex;
-    align-items: center;
+    gap: 12px;
 }
 
 .avatar {
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.avatar:hover {
+    transform: scale(1.1);
+    z-index: 2;
+}
+
+/* --- Responsive Breakpoints --- */
+
+@media (max-width: 992px) {
+    .containerBox {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .reviewerSection {
+        width: 100%;
+        max-width: 100%;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        padding-left: 0;
+        padding-top: 2rem;
+        margin-top: 1rem;
+    }
+    
+    .metricsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .metricsGrid {
+        grid-template-columns: 1fr; /* Stack metrics vertically on mobile */
+    }
+    
+    .containerBox {
+        padding: 1rem;
+    }
+    
+    .metricBox {
+        padding: 0.75rem;
+    }
 }

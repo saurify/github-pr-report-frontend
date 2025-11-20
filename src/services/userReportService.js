@@ -49,12 +49,28 @@ export function useReportService() {
 }
 
 function metricCreator(res) {
-  var data = []
+  const fmt = (val, suffix = "") => (val === "0.00" || val === 0) ? "-" : `${val}${suffix}`;
 
-  data.push(metricDataFormatter(1, "	Total PRs", "📦", res.totalPRs, "Total PRs raised during selected time frame."), metricDataFormatter(2, "Merged PRs", "✅", res.mergedPRs, "PRs that were merged during selected timeframe"), metricDataFormatter(3, "Average Merge Time", "⏳", res.avgTimeToMerge, "Average time taken to merge PRs (in hours)"), metricDataFormatter(4, "Average Reviews per PR", "🔍", res.avgReviewsPerPR, "Mean number of review comments per PR"))
-  return data
+  return [
+    metricDataFormatter(1, "Total Throughput", "📦", res.totalPRs ?? 0,
+      "Total Pull Requests analyzed."),
+
+    metricDataFormatter(2, "Merged PRs", "✅", res.mergedPRs ?? 0,
+      "PRs successfully merged."),
+
+    metricDataFormatter(3, "Open Work Items", "🔥", res.openPRs ?? 0,
+      "Current open work item count (WIP)."),
+
+    metricDataFormatter(4, "Avg Cycle Time (Time-to-Merge)", "⏳", fmt(res.avgTimeToMerge, "h"),
+      "Average time taken to merge PRs (Engineering Velocity)."),
+
+    metricDataFormatter(5, "PR Bottleneck Identifier", "🕒", fmt(res.avgOpenPrAge, "h"),
+      "Average age of currently open PRs (Stale work detection)."),
+
+    metricDataFormatter(6, "Avg Reviews/PR", "🔍", fmt(res.avgReviewsPerPR),
+      "Mean number of review comments per Merged PR (Code Quality metric).")
+  ];
 }
-
 function metricDataFormatter(id, title, icon, value, desc) {
   return {
     id: id,
@@ -67,7 +83,7 @@ function metricDataFormatter(id, title, icon, value, desc) {
 
 function reviewDataCreator(res) {
   var reviewers = [];
-  const reviewerDataArray = res.topReviewers;
+  const reviewerDataArray = res.topReviewers || [];
   console.log("diuhnus", res, reviewerDataArray)
   reviewerDataArray.forEach((reviewer, index) => {
     reviewers.push(

@@ -10,7 +10,7 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
     if (loading) {
         return (
             <footer className={styles.footer}>
-                <div className={styles.containerBox} style={{justifyContent:'center'}}>
+                <div className={styles.containerBox} style={{ justifyContent: 'center' }}>
                     <Spin
                         indicator={<LoadingOutlined style={{ fontSize: 48, color: '#1890ff' }} spin />}
                         tip={<Text strong style={{ color: '#1890ff' }}>Analyzing pull requests...</Text>}
@@ -25,13 +25,13 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
     if (error) {
         return (
             <footer className={styles.footer}>
-                <div className={styles.containerBox}>
+                <div className={styles.containerBox} style={{ justifyContent: 'center' }}>
                     <Alert
-                        message="An error occurred"
+                        message="Analysis Failed"
                         description={error}
                         type="error"
                         showIcon
-                        style={{ width: '100%', maxWidth: 600, margin: '48px auto' }}
+                        style={{ width: '100%', maxWidth: 600 }}
                     />
                 </div>
             </footer>
@@ -72,6 +72,25 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
         );
     }
 
+    const totalPRs = data?.find(d => d.id === 1)?.value || 0;
+    if (totalPRs === 0) {
+        return (
+            <footer className={styles.footer}>
+                <div className={styles.containerBox} style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                    <Empty
+                        description={
+                            <span>
+                                <Text strong>No PRs found in this timeframe.</Text>
+                                <br />
+                                <Text type="secondary">Try expanding your date range.</Text>
+                            </span>
+                        }
+                    />
+                </div>
+            </footer>
+        );
+    }
+
     return (
         <footer className={styles.footer}>
             <div className={styles.containerBox}>
@@ -88,18 +107,37 @@ export default function ResultsComponent({ data, reviewers, loading, error, hasF
                         </Tooltip>
                     ))}
                 </div>
-                <div className={styles.reviewerSection}>
-                    <div className={styles.reviewerHeader}>
-                        <span>Top Reviewers</span>
+
+                {/* Only show Reviewers section if there are reviewers */}
+                {reviewers && reviewers.length > 0 ? (
+                    <div className={styles.reviewerSection}>
+                        <div className={styles.reviewerHeader}>
+                            <span>Top Reviewers</span>
+                        </div>
+                        <div className={styles.reviewerList}>
+                            {reviewers.map(({ name, avatar }, i) => (
+                                <Tooltip key={i} title={`${name}`} placement="bottom">
+                                    <img
+                                        src={avatar}
+                                        alt={name}
+                                        className={styles.avatar}
+                                        onError={(e) => { e.target.src = 'https://github.com/ghost.png' }} // Fallback image
+                                    />
+                                </Tooltip>
+                            ))}
+                        </div>
                     </div>
-                    <div className={styles.reviewerList}>
-                        {reviewers?.map(({ name, avatar }, i) => (
-                            <Tooltip key={i} title={name} placement="bottom">
-                                <img src={avatar} alt={name} className={styles.avatar} />
-                            </Tooltip>
-                        ))}
+                ) : (
+                    /* Optional: Show "No Reviews" message if PRs exist but no reviews */
+                    <div className={styles.reviewerSection}>
+                        <div className={styles.reviewerHeader}>
+                            <span>Reviewers</span>
+                        </div>
+                        <div style={{ textAlign: 'center', color: '#999', fontSize: '0.9rem', padding: '1rem' }}>
+                            No reviews found
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </footer>
     );
